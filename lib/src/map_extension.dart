@@ -1,15 +1,21 @@
 import '_path_resolver.dart';
 
+/// A null-safe extension on `Map<String, dynamic>`
+/// that provides safe getters for common types.
 extension SafeMapExtension on Map<String, dynamic> {
   // ================= STRING =================
+
+  /// Returns a [String] value at [path] or [defaultValue] if null or not a string.
   String safeString(String path, {String defaultValue = ''}) {
     final value = resolvePath(this, path);
     return value?.toString() ?? defaultValue;
   }
 
+  /// Returns a nullable [String] value at [path], or `null` if not found.
   String? safeStringOrNull(String path) => resolvePath(this, path)?.toString();
 
   // ================= INT =================
+  /// Returns a [int] at [key] or [defaultValue] if the value is not int.
   int safeInt(String path, {int defaultValue = 0}) {
     final value = resolvePath(this, path);
     if (value is int) return value;
@@ -17,6 +23,7 @@ extension SafeMapExtension on Map<String, dynamic> {
     return defaultValue;
   }
 
+  /// Returns a nullable [int] at [key] or `null` if the value is not int.
   int? safeIntOrNull(String path) {
     final value = resolvePath(this, path);
     if (value is int) return value;
@@ -25,6 +32,7 @@ extension SafeMapExtension on Map<String, dynamic> {
   }
 
   // ================= DOUBLE =================
+  /// Returns a [double] at [key] or [defaultValue] if the value is not double.
   double safeDouble(String path, {double defaultValue = 0.0}) {
     final value = resolvePath(this, path);
     if (value is double) return value;
@@ -33,6 +41,7 @@ extension SafeMapExtension on Map<String, dynamic> {
     return defaultValue;
   }
 
+  /// Returns a nullable [double] at [key] or `null` if the value is not double.
   double? safeDoubleOrNull(String path) {
     final value = resolvePath(this, path);
     if (value is double) return value;
@@ -42,6 +51,7 @@ extension SafeMapExtension on Map<String, dynamic> {
   }
 
   // ================= BOOL =================
+  /// Returns a [bool] at [key] or [defaultValue] if the value is not boolean.
   bool safeBool(String path, {bool defaultValue = false}) {
     final value = resolvePath(this, path);
     if (value is bool) return value;
@@ -54,6 +64,7 @@ extension SafeMapExtension on Map<String, dynamic> {
     return defaultValue;
   }
 
+  /// Returns a nullable [bool] at [key] or `null` if the value is not boolean.
   bool? safeBoolOrNull(String path) {
     final value = resolvePath(this, path);
     if (value is bool) return value;
@@ -70,6 +81,7 @@ extension SafeMapExtension on Map<String, dynamic> {
   }
 
   // ================= DATE =================
+    /// Returns a nullable [DateTime] value at [path], or `null` if not found.
   DateTime? safeDate(String path) {
     final value = resolvePath(this, path);
     if (value is String) return DateTime.tryParse(value);
@@ -77,16 +89,20 @@ extension SafeMapExtension on Map<String, dynamic> {
   }
 
   // ================= LIST =================
+  /// Returns a [bool] at [key] or [defaultValue] if the value is not boolean.
   List<T> safeList<T>(String path, T Function(Map<String, dynamic>) fromJson) {
     final value = resolvePath(this, path);
-    if (value is List) return value.whereType<Map<String, dynamic>>().map(fromJson).toList();
+    if (value is List)
+      return value.whereType<Map<String, dynamic>>().map(fromJson).toList();
     return [];
   }
 
-  // ================= LIST Wildcard =================
+  // ================= LIST Wildcard =================\
+  
   List<T> safeListWildcard<T>(String path, T Function(dynamic item) transform) {
     final value = resolvePath(this, path);
-    if (value is List) return value.expand((e) => e is List ? e : [e]).map(transform).toList();
+    if (value is List)
+      return value.expand((e) => e is List ? e : [e]).map(transform).toList();
     return [];
   }
 
@@ -111,7 +127,8 @@ extension SafeMapExtension on Map<String, dynamic> {
         if (T == double) {
           if (value is double) return value as T;
           if (value is int) return value.toDouble() as T;
-          if (value is String) return double.tryParse(value) as T? ?? defaultValue;
+          if (value is String)
+            return double.tryParse(value) as T? ?? defaultValue;
         }
         if (T == bool) {
           if (value is bool) return value as T;
