@@ -1,0 +1,17 @@
+name: safe_json_parser
+description: A null-safe, defensive JSON parser for Flutter with nested path & wildcard support.
+version: 0.0.2
+# author: Ahmad Al Sheblak <ahmadfrer@gmail.com>
+homepage: https://github.com/yourusername/safe_json_parser
+
+environment:
+  sdk: '>=2.18.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
